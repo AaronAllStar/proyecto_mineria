@@ -1,6 +1,7 @@
 from .reader import Reader
 from .analyzer import Analyzer
 from .visualizer import Visualizer
+from .preprocessor import DinoCleaner
 
 __version__ = "0.1.0"
 

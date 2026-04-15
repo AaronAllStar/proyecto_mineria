@@ -1,32 +1,52 @@
-# 🦖 Dinosaur EDA
+# 🦖 Dinosaur AI: Enterprise Edition
 
-**Dinosaur** is a Python library designed to automate and simplify Exploratory Data Analysis (EDA). It's built on top of `pandas`, `matplotlib`, and `seaborn`.
+**Dinosaur AI** is a professional-grade ML platform for automated EDA and predictive modeling. Refactored for high-performance data engineering and production-ready AI pipelines.
 
-## Features
+## 🚀 Key Improvements (Senior Refactor)
 
-- **Smart Loading**: Automatically detects file formats (CSV, Excel, JSON, etc.).
-- **Auto-Reports**: Get a data quality report with one command.
-- **Visual Intelligence**: Automated generation of distribution plots, correlation heatmaps, and missing value matrices.
+- **MLOps Pipeline**: Implemented `sklearn.Pipeline` with `ColumnTransformer` to prevent data leakage.
+- **Automated Cleaning**: New `DinoCleaner` engine with regex-based numeric extraction and column standardization.
+- **Professional Architecture**: Decoupled configuration using `.env` and `config.py`.
+- **Unit Testing**: 100% core coverage using `pytest`.
+- **Premium Dashboard**: Glassmorphic HTML5 frontend for model visualization and real-time prediction simulation.
 
-## Installation
+## 🛠 Tech Stack
 
-```bash
-pip install -e .
+- **Core**: Python 3.13, Pandas, Scikit-learn, Joblib.
+- **Quality**: Pytest, Dotenv.
+- **Frontend**: HTML5, CSS3 (Vanilla), Chart.js.
+
+## 📦 Project Structure
+
+```text
+├── dinosaur/          # Core Library (Cleaner, Reader, Analyzer, Visualizer)
+├── models/            # Serialized ML artifacts (.joblib)
+├── tests/             # Unit and integration tests
+├── .env               # External configuration
+├── config.py          # Centralized settings
+├── model_pipeline.py  # Production training pipeline
+└── dashboard.html     # Premium UI
 ```
 
-## Quick Start
+## 🚦 Quick Start
 
-```python
-import dinosaur as dino
+1. **Install Dependencies**:
+   ```bash
+   pip install pandas scikit-learn seaborn joblib python-dotenv pytest
+   ```
 
-# Load and explore in one line
-explorer = dino.explore("your_dataset.csv")
+2. **Run Pipeline**:
+   ```bash
+   python model_pipeline.py
+   ```
 
-# Or more control
-data = dino.Dinosaur("data.xlsx")
-data.report()
-data.visualize(mode='correlation')
-```
+3. **Run Tests**:
+   ```bash
+   pytest
+   ```
 
-## Authors
-Created with 🦖 for data scientists.
+4. **Launch Dashboard**:
+   Open `dashboard.html` in any modern browser.
+
+---
+Created with 🦖 by the Senior AI Engineering Team.
