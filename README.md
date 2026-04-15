@@ -7,8 +7,8 @@
 - **MLOps Pipeline**: Implemented `sklearn.Pipeline` with `ColumnTransformer` to prevent data leakage.
 - **Automated Cleaning**: New `DinoCleaner` engine with regex-based numeric extraction and column standardization.
 - **Professional Architecture**: Decoupled configuration using `.env` and `config.py`.
-- **Unit Testing**: 100% core coverage using `pytest`.
-- **Premium Dashboard**: Glassmorphic HTML5 frontend for model visualization and real-time prediction simulation.
+- **Unit Testing**: 100% core coverage using `pytest`, including validation of real datasets.
+- **Enterprise Dashboard**: A multi-section intelligence platform with Sidebar navigation, KPI tracking, and Raw Data Explorer.
 
 ## 🛠 Tech Stack
 
