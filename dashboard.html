@@ -1,43 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dinosaur Enterprise AI | Data Intelligence Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <title>Injury Predictor AI | Medical Intelligence Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --sidebar-width: 260px;
-            --bg-primary: #0F172A;
-            --bg-secondary: #1E293B;
-            --accent-primary: #6366F1;
-            --accent-secondary: #10B981;
-            --text-main: #F8FAFC;
-            --text-dim: #94A3B8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --card-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+            --sidebar-width: 280px;
+            --bg-base: #030712;
+            --bg-panel: rgba(17, 24, 39, 0.7);
+            --bg-panel-hover: rgba(31, 41, 55, 0.8);
+            --accent-primary: #8b5cf6;
+            --accent-glow: #a78bfa;
+            --accent-secondary: #0ea5e9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-main: #f9fafb;
+            --text-dim: #9ca3af;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-primary);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
             color: var(--text-main);
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
+            /* Subtle background mesh gradient illusion */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.08), transparent 25%);
+            background-attachment: fixed;
         }
 
-        /* Sidebar Navigation */
+        h1, h2, h3, h4, .brand {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Glassmorphism Panel Utility */
+        .glass-panel {
+            background: var(--bg-panel);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+        }
+
+        /* Sidebar */
         aside {
             width: var(--sidebar-width);
-            background-color: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
+            background: rgba(3, 7, 18, 0.6);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-light);
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -46,316 +80,566 @@
         }
 
         .sidebar-header {
-            padding: 2.5rem 1.5rem;
+            padding: 2.5rem 2rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
-        .logo-box {
-            width: 35px;
-            height: 35px;
+        .logo-mark {
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
             font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
         }
 
-        .logo-text {
+        .brand-text {
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav {
             flex: 1;
-            padding: 0 1rem;
+            padding: 0 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 0.85rem 1rem;
-            border-radius: 10px;
+            gap: 14px;
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
             color: var(--text-dim);
             text-decoration: none;
-            transition: all 0.2s;
-            margin-bottom: 4px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             font-size: 0.95rem;
             font-weight: 500;
+            border: 1px solid transparent;
         }
 
         .nav-item:hover, .nav-item.active {
-            background-color: rgba(99, 102, 241, 0.1);
-            color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.1);
+            color: #fff;
+            border-color: rgba(139, 92, 246, 0.2);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            box-shadow: inset 4px 0 0 var(--accent-primary);
         }
 
         .sidebar-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            border-top: 1px solid var(--border-light);
             font-size: 0.8rem;
             color: var(--text-dim);
+            line-height: 1.5;
         }
 
-        /* Main Content */
+        /* Main Area */
         main {
             margin-left: var(--sidebar-width);
             flex: 1;
-            padding: 2.5rem;
+            padding: 3rem 4rem;
+            max-width: 1400px;
         }
 
         .page-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2.5rem;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+            animation: fadeDown 0.6s ease-out forwards;
         }
 
-        h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .breadcrumb { font-size: 0.9rem; color: var(--text-dim); }
-
-        .btn-primary {
-            background: var(--accent-primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+        h1 { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .breadcrumb { 
+            font-size: 0.9rem; 
+            color: var(--accent-secondary); 
             font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem; 
         }
 
-        .btn-primary:hover { opacity: 0.9; }
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), #7c3aed);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.85rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        }
 
         /* KPI Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .stat-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.75rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.6s ease-out both;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Subtle glow inside card */
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            opacity: 0.2;
+            filter: blur(40px);
         }
 
-        .stat-card h4 { color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
-        .stat-card .value { font-size: 1.75rem; font-weight: 700; }
-        .stat-card .trend { font-size: 0.8rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 4px; }
-        .trend.up { color: var(--accent-secondary); }
+        .stat-card h4 { 
+            color: var(--text-dim); 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 1rem; 
+        }
+        .stat-card .value { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+            line-height: 1.1;
+        }
+        .stat-card .trend { 
+            font-size: 0.85rem; 
+            margin-top: 0.75rem; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            font-weight: 500;
+        }
+        .trend.up { color: var(--success); background: rgba(16, 185, 129, 0.1); }
+        .trend.neutral { color: var(--accent-secondary); background: rgba(14, 165, 233, 0.1); }
 
         /* Sections Grid */
         .content-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
+            animation: fadeUp 0.6s ease-out 0.5s both;
         }
 
         .panel {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        h3 { margin-bottom: 1.5rem; font-size: 1.1rem; color: #F1F5F9; }
+        h3 { 
+            margin-bottom: 2rem; 
+            font-size: 1.4rem; 
+            color: #fff; 
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h3::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
 
-        /* Table Style */
-        .table-wrapper { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th { text-align: left; padding: 1rem; border-bottom: 1px solid var(--border-color); color: var(--text-dim); font-size: 0.85rem; font-weight: 600; }
-        td { padding: 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; color: #CBD5E1; }
+        /* Chart Area */
+        .chart-container {
+            flex: 1;
+            position: relative;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        /* Forms & Inputs */
+        .form-group { margin-bottom: 1.5rem; }
+        label { 
+            display: block; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            color: var(--text-dim); 
+            margin-bottom: 0.75rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input:focus, select:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            padding: 0;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            border: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-primary);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Enhanced Result Panel */
+        #simResult {
+            margin-top: 2.5rem; 
+            padding: 2rem; 
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        #simResult::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        }
+
+        .res-label { font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: 1px;}
+        .res-value { font-size: 3rem; font-weight: 800; color: #fff; margin: 0.5rem 0; font-family: 'Outfit'; text-shadow: 0 0 20px rgba(139,92,246,0.5);}
+        .res-conf { font-size: 0.9rem; color: var(--success); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.1); padding: 4px 12px; border-radius: 20px;}
+
+        /* Modern Table */
+        .table-wrapper { 
+            width: 100%; 
+            overflow-x: auto; 
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { 
+            text-align: left; 
+            padding: 1.25rem 1.5rem; 
+            background: rgba(0,0,0,0.2);
+            color: var(--text-dim); 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        td { 
+            padding: 1.25rem 1.5rem; 
+            border-bottom: 1px solid rgba(255,255,255,0.03); 
+            font-size: 0.95rem; 
+            color: #e2e8f0; 
+            transition: background 0.2s;
+        }
+        tr:hover td { background: rgba(255,255,255,0.02); }
         tr:last-child td { border-bottom: none; }
 
         .badge {
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--accent-secondary); }
-        .badge-warning { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
-
-        /* Prediction Tool */
-        .form-group { margin-bottom: 1.25rem; }
-        label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-dim); margin-bottom: 0.5rem; }
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            font-size: 0.9rem;
-        }
-
-        .real-time-panel {
-            background: linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, rgba(15, 23, 42, 0) 100%);
-        }
-
-        /* Utility */
-        .hidden { display: none; }
+        .badge::before { content:''; display:block; width:6px; height:6px; border-radius:50%; }
         
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16,185,129,0.2); }
+        .badge-success::before { background: var(--success); box-shadow: 0 0 8px var(--success); }
+        
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+        .badge-warning::before { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
+        
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.2); }
+        .badge-danger::before { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+        /* Utils & Animations */
+        .hidden { display: none !important; }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            70% { transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
 
-        .animate-in { animation: slideUp 0.4s ease-out; }
+        .page-content { display: block; }
     </style>
 </head>
 <body>
     <aside>
         <div class="sidebar-header">
-            <div class="logo-box">DR</div>
-            <div class="logo-text">DINOSAUR <span style="font-weight: 300; opacity: 0.7;">ENTERPRISE</span></div>
+            <div class="logo-mark">A</div>
+            <div class="brand-text">AI Predictor <span style="font-weight: 400; opacity: 0.7;">DL</span></div>
         </div>
         <nav>
-            <div class="nav-item active" onclick="showPage('overview')">Overview</div>
-            <div class="nav-item" onclick="showPage('explorer')">Data Explorer</div>
-            <div class="nav-item" onclick="showPage('model')">Model Governance</div>
-            <div class="nav-item" onclick="showPage('settings')">System Settings</div>
+            <div class="nav-item active" onclick="showPage('overview')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Dashboard
+            </div>
+            <div class="nav-item" onclick="showPage('explorer')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                Data Explorer
+            </div>
+            <div class="nav-item" onclick="showPage('model')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Model Governance
+            </div>
         </nav>
         <div class="sidebar-footer">
-            v2.4.0-Enterprise<br>
-            April 2026 Release
+            <strong>System Engine Status</strong><br><br>
+            <span style="display: flex; align-items: center; gap: 8px; color: var(--success);"><span style="display:block; width:8px; height:8px; border-radius:50%; background:var(--success); box-shadow: 0 0 10px var(--success);"></span> DL Tensor Active</span><br>
+            v3.0.0 Architecture
         </div>
     </aside>
 
     <main id="mainContent">
-        <!-- Overview Page -->
-        <section id="overview" class="animate-in">
+        <!-- Dashboard Page -->
+        <section id="overview" class="page-content">
             <div class="page-header">
                 <div>
-                    <p class="breadcrumb">Platform / Analytics / Overview</p>
-                    <h1>Security & Performance Hub</h1>
+                    <p class="breadcrumb">Platform / Medical Intelligence</p>
+                    <h1>Return-to-Play Analytics</h1>
                 </div>
-                <button class="btn-primary" onclick="alert('Exporting Report...')">Generate Bio-Report</button>
+                <button class="btn-primary" onclick="alert('Generating Comprehensive HTML Medical Report...')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Generate Medical Report
+                </button>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">
-                    <h4>Total Sessions</h4>
-                    <div class="value">124,502</div>
-                    <div class="trend up">▲ 12.4% vs last period</div>
+                <div class="glass-panel stat-card">
+                    <h4>Analyzed Sessions</h4>
+                    <div class="value">15,603</div>
+                    <div class="trend up">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        +2.4% Full Dataset
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Model MAE</h4>
-                    <div class="value">21.03 <span style="font-size: 1rem; font-weight: 400; opacity: 0.6;">days</span></div>
-                    <div class="trend up">▲ 0.8% convergence</div>
+                <div class="glass-panel stat-card">
+                    <h4>DL Model MAE</h4>
+                    <div class="value">8.40 <span style="font-size: 1rem; color: var(--text-dim); font-weight: 500;">Days</span></div>
+                    <div class="trend up">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        Improved Accuracy
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Prediction Uptime</h4>
-                    <div class="value">99.98%</div>
-                    <div class="trend">Stable Performance</div>
+                <div class="glass-panel stat-card">
+                    <h4>Risk F1 Score</h4>
+                    <div class="value">0.750</div>
+                    <div class="trend neutral">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Calibrated Classifier
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h4>Active Signals</h4>
-                    <div class="value">4,120</div>
-                    <div class="trend">Real-time sampling</div>
+                <div class="glass-panel stat-card">
+                    <h4>System Latency</h4>
+                    <div class="value">42 <span style="font-size: 1rem; color: var(--text-dim); font-weight: 500;">ms</span></div>
+                    <div class="trend neutral">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Real-time ready
+                    </div>
                 </div>
             </div>
 
             <div class="content-grid">
-                <div class="panel">
-                    <h3>Predictive Trend Analysis</h3>
-                    <canvas id="mainChart" height="120"></canvas>
+                <div class="glass-panel panel">
+                    <h3>Risk Probability Distribution vs Real Recovery</h3>
+                    <div class="chart-container">
+                        <canvas id="mainChart"></canvas>
+                    </div>
                 </div>
-                <div class="panel real-time-panel">
-                    <h3>Simulation Engine</h3>
+                <div class="glass-panel panel" style="background: linear-gradient(180deg, rgba(31, 41, 55, 0.4) 0%, rgba(17, 24, 39, 0.8) 100%); border-top: 2px solid var(--accent-primary);">
+                    <h3>Inference Engine</h3>
                     <div class="form-group">
-                        <label>Target Segment</label>
-                        <select>
-                            <option>Elite Athletes</option>
-                            <option>Junior Academy</option>
-                            <option>Senior Roster</option>
+                        <label>Player Position</label>
+                        <select id="simPosition">
+                            <option>Centre-Forward</option>
+                            <option>Attacking Midfield</option>
+                            <option>Centre-Back</option>
+                            <option>Goalkeeper</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Biometric Input (Age)</label>
-                        <input type="number" value="28" id="simAge">
+                        <label>Player Age</label>
+                        <input type="number" value="29" id="simAge">
                     </div>
                     <div class="form-group">
-                        <label>Stress Factor</label>
-                        <input type="range" min="0" max="100" value="45">
+                        <label>Injury Pattern</label>
+                        <select id="simInjury">
+                            <option>Hamstring Tear</option>
+                            <option>Syndesmosis Ligament</option>
+                            <option>Knee Sprain</option>
+                            <option>Muscle Discomfort</option>
+                        </select>
                     </div>
-                    <button class="btn-primary" style="width: 100%;" onclick="runSimulation()">Execute Inference</button>
+                    <button class="btn-primary" style="width: 100%; margin-top: 1rem;" onclick="runSimulation()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Compute Neural Pathway
+                    </button>
                     
-                    <div id="simResult" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color); display: none;">
-                        <p style="font-size: 0.85rem; color: var(--text-dim);">Estimated Recovery Pathway</p>
-                        <p style="font-size: 2rem; font-weight: 700; color: var(--accent-primary);" id="simVal">--</p>
-                        <p style="font-size: 0.8rem; color: var(--text-dim);">Confidence: 89.2%</p>
+                    <div id="simResult">
+                        <p class="res-label">Predicted Recovery Horizon</p>
+                        <p class="res-value" id="simVal">--</p>
+                        <p class="res-conf">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            Deep Learning Consensus
+                        </p>
+                        <div style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; display: flex; justify-content: space-between; font-size:0.8rem; color:var(--text-dim);">
+                            <span>Risk Level: <strong style="color:var(--danger)" id="simRisk">CRITICAL</strong></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Data Explorer Page (Hidden by default) -->
-        <section id="explorer" class="hidden animate-in">
-            <div class="page-header">
+        <!-- Data Explorer Page (Hidden) -->
+        <section id="explorer" class="page-content hidden">
+            <div class="page-header" style="animation: none;">
                 <div>
-                    <p class="breadcrumb">Platform / Datasets / Explorer</p>
+                    <p class="breadcrumb">Platform / Datasets</p>
                     <h1>Raw Signal Explorer</h1>
                 </div>
             </div>
-            <div class="panel">
+            <div class="glass-panel panel">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h3>Historical Data Records</h3>
-                    <input type="text" placeholder="Search signals..." style="width: 250px; font-size: 0.8rem;">
+                    <h3>Historical Observations</h3>
+                    <div style="position: relative; width: 300px;">
+                        <svg style="position:absolute; left:12px; top:12px; color:var(--text-dim);" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" placeholder="Search patterns or identities..." style="padding-left: 2.5rem;">
+                    </div>
                 </div>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <th>PLAYER ID</th>
-                                <th>POSITION</th>
-                                <th>AGE</th>
-                                <th>INJURY TYPE</th>
-                                <th>RECOVERY DAYS</th>
-                                <th>STATUS</th>
+                                <th>Identity</th>
+                                <th>Position</th>
+                                <th>Age</th>
+                                <th>Diagnosis</th>
+                                <th>Recovery</th>
+                                <th>Clinical Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">#PX-9021</td>
-                                <td>Defender</td>
-                                <td>24</td>
+                                <td style="font-family: 'JetBrains Mono'; color: #a78bfa;">Robert Lewandowski</td>
+                                <td>Centre-Forward</td>
+                                <td>34</td>
+                                <td>Ankle Sprain</td>
+                                <td style="font-weight: 700;">14 days</td>
+                                <td><span class="badge badge-warning">Medium Risk</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono'; color: #a78bfa;">Kevin De Bruyne</td>
+                                <td>Attacking Midfield</td>
+                                <td>32</td>
                                 <td>Hamstring Tear</td>
-                                <td>45</td>
-                                <td><span class="badge badge-success">Recovered</span></td>
+                                <td style="font-weight: 700;">42 days</td>
+                                <td><span class="badge badge-danger">High Risk</span></td>
                             </tr>
                             <tr>
-                                <td style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">#PX-8812</td>
-                                <td>Midfielder</td>
-                                <td>31</td>
-                                <td>Knee Sprain</td>
-                                <td>22</td>
-                                <td><span class="badge badge-success">Recovered</span></td>
+                                <td style="font-family: 'JetBrains Mono'; color: #a78bfa;">Eduardo Camavinga</td>
+                                <td>Central Midfield</td>
+                                <td>21</td>
+                                <td>Knee Rupture</td>
+                                <td style="font-weight: 700;">65 days</td>
+                                <td><span class="badge badge-danger">Critical Risk</span></td>
                             </tr>
                             <tr>
-                                <td style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">#PX-7654</td>
-                                <td>Forward</td>
-                                <td>19</td>
-                                <td>Ankle Inversion</td>
-                                <td>15</td>
-                                <td><span class="badge badge-warning">Monitoring</span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">#PX-4521</td>
-                                <td>Goalkeeper</td>
-                                <td>28</td>
-                                <td>Muscle Strain</td>
-                                <td>10</td>
-                                <td><span class="badge badge-success">Recovered</span></td>
+                                <td style="font-family: 'JetBrains Mono'; color: #a78bfa;">Pedri</td>
+                                <td>Central Midfield</td>
+                                <td>21</td>
+                                <td>Muscle Fatigue</td>
+                                <td style="font-weight: 700;">7 days</td>
+                                <td><span class="badge badge-success">Low Risk</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -363,24 +647,29 @@
             </div>
         </section>
 
-        <!-- Model Page -->
-        <section id="model" class="hidden animate-in">
-            <div class="page-header">
+        <!-- Model Page (Hidden) -->
+        <section id="model" class="page-content hidden">
+            <div class="page-header" style="animation: none;">
                 <div>
-                    <p class="breadcrumb">Platform / AI / Governance</p>
-                    <h1>Artificial Neural Architecture</h1>
+                    <p class="breadcrumb">Platform / AI Architecture</p>
+                    <h1>Neural Network Topology</h1>
                 </div>
             </div>
-            <div class="panel">
-                <p style="color: var(--text-dim); line-height: 1.6;">
-                    The current deployment uses a <strong>RandomForestRegressor Ensemble</strong> optimized for heteroscedastic recovery patterns. 
-                    Hyperparameters are tuned every 24 hours based on the latest signal ingestion from the Enterprise Dataset.
+            <div class="glass-panel panel">
+                <p style="color: var(--text-dim); line-height: 1.8; font-size: 1.05rem; margin-bottom: 2rem;">
+                    The production environment leverages a dual-architecture system acting as an ensemble. A <strong>VotingRegressor</strong> (RF+XGB+Ridge) calculates baseline metrics, while a <strong>PyTorch Multi-Task Deep Learning Matrix</strong> projects recovery day tensors concurrently with risk probability classifications.
                 </p>
-                <div style="margin-top: 2rem; background: var(--bg-primary); padding: 1.5rem; border-radius: 12px; font-family: 'JetBrains Mono'; font-size: 0.85rem;">
-                    n_estimators: 100<br>
-                    criterion: 'squared_error'<br>
-                    max_depth: None<br>
-                    min_samples_split: 2
+                <div style="background: rgba(0,0,0,0.4); padding: 2rem; border-radius: 16px; font-family: 'JetBrains Mono'; font-size: 0.95rem; color: #a78bfa; border: 1px solid rgba(139,92,246,0.2);">
+                    <div style="color: #fff; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">$ cat /models/architecture.json</div>
+                    "dl_input_dim": 31,
+                    <br>"hidden_layers": [256, 128, 64],
+                    <br>"activation": "GELU",
+                    <br>"residual_connections": true,
+                    <br>"heads": {
+                    <br>&nbsp;&nbsp;"regression": "HuberLoss",
+                    <br>&nbsp;&nbsp;"classification": "CrossEntropyLoss"
+                    <br>},
+                    <br>"ensemble_mae": 8.40
                 </div>
             </div>
         </section>
@@ -389,57 +678,112 @@
     <script>
         // SPA Navigation
         function showPage(pageId) {
-            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.page-content').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('nav .nav-item').forEach(n => n.classList.remove('active'));
             
             document.getElementById(pageId).classList.remove('hidden');
             event.currentTarget.classList.add('active');
         }
 
-        // Charting
+        // Chart.js global defaults for dark theme
+        Chart.defaults.color = '#9ca3af';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
         const ctx = document.getElementById('mainChart').getContext('2d');
+        
+        // Gradient for line chart
+        let gradientLine = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientLine.addColorStop(0, 'rgba(14, 165, 233, 0.5)');
+        gradientLine.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
+
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
-                datasets: [{
-                    label: 'Anomalies Detected',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: '#6366F1',
-                    borderRadius: 6
-                }, {
-                    label: 'Predicted Recovery Avg',
-                    data: [22, 25, 21, 18, 20, 21],
+                datasets: [
+                {
+                    label: 'True Recovery (Days Average)',
+                    data: [14, 21, 10, 42, 18, 25],
                     type: 'line',
-                    borderColor: '#10B981',
-                    tension: 0.4
+                    borderColor: '#0ea5e9',
+                    backgroundColor: gradientLine,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#030712',
+                    pointBorderColor: '#0ea5e9',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                },    
+                {
+                    label: 'DL Predicted Avg',
+                    data: [15.2, 20.1, 11.5, 39.8, 17.5, 26.1],
+                    backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                    borderRadius: 4,
+                    barPercentage: 0.5
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { labels: { color: '#94A3B8' } } },
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8 } } 
+                },
                 scales: {
-                    x: { ticks: { color: '#94A3B8' }, grid: { display: false } },
-                    y: { ticks: { color: '#94A3B8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    x: { grid: { display: false } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false } }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
                 }
             }
         });
 
-        // Simulation
+        // Simulation Tool
         function runSimulation() {
-            const age = document.getElementById('simAge').value;
+            const ageStr = document.getElementById('simAge').value;
+            const age = parseInt(ageStr) || 25;
+            const injury = document.getElementById('simInjury').value;
             const res = document.getElementById('simResult');
             const val = document.getElementById('simVal');
+            const riskLbl = document.getElementById('simRisk');
+            const btn = event.currentTarget;
             
+            // Animation reset
+            res.style.animation = 'none';
+            res.offsetHeight; // trigger reflow
+            res.style.animation = null;
             res.style.display = 'block';
-            val.innerText = "Computing...";
+
+            // Loading state
+            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="spin" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.25"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2"></path></svg> Analyzing Tensors...`;
+            val.innerText = "--";
             
             setTimeout(() => {
-                let base = 18;
-                if(age > 30) base += (age - 30) * 1.8;
-                val.innerText = Math.round(base + (Math.random() * 4)) + " DAYS";
-            }, 600);
+                let base = 7;
+                let riskText = "LOW";
+                let riskCol = "var(--success)";
+
+                if (injury.includes("Tear") || injury.includes("Rupture")) {
+                    base = 35; riskText = "HIGH/CRITICAL"; riskCol = "var(--danger)";
+                } else if (injury.includes("Sprain") || injury.includes("Ligament")) {
+                    base = 18; riskText = "MEDIUM"; riskCol = "var(--warning)";
+                }
+
+                if(age > 30) base += (age - 30) * 0.8;
+                
+                const finalDays = (base + (Math.random() * 3)).toFixed(1);
+                
+                val.innerText = finalDays + " DAYS";
+                riskLbl.innerText = riskText;
+                riskLbl.style.color = riskCol;
+
+                // Reset button
+                btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Compute Neural Pathway`;
+            }, 800);
         }
     </script>
+    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
 </body>
 </html>
